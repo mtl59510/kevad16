@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+	
+<!-- 	<bean id="xxx" class="org.springframework.mock.web.MockHttpServletRequest" scope="request"/> -->
+	
+	<bean id="userService" class="spring.wac.SimpleUserService">
+		<property name="loginAction" ref="loginAction" />
+	</bean>
+	
+	<bean id="loginAction" class="spring.wac.LoginAction" scope="request">
+		<!-- TODO Investigate SpEL sorcery here. -->
+		<property name="username" value="#{request.getParameter('user')}"/>
+		<property name="password" value="#{request.getParameter('pswd')}"/>
+		<aop:scoped-proxy/>
+	</bean>
+	
+</beans>
